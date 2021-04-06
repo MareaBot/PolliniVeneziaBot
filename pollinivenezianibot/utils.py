@@ -72,7 +72,7 @@ def get_printed_data() -> List[Tuple[str, str, str]]:
     dati = get_dati_continui()
     pollini = get_pollini()
     out = []
-    for e in dati.keys():
+    for e in dati:
         try:
             pollin_data = pollini[e]
             pollin_level = dati[e]
