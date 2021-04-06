@@ -17,11 +17,10 @@ log = logging.getLogger("rich")
 def letter_cmp(a, b):
     if a[2] > b[2]:
         return -1
-    elif a[2] == b[2]:
+    if a[2] == b[2]:
         if a[0] > b[0]:
             return 1
-        else:
-            return -1
+        return -1
     else:
         return 1
 
@@ -60,12 +59,11 @@ def get_level(limits: list, number: float = 0.0) -> (str, str):
         number = 0.0
     if number < limits[0]:
         return "⚪", "None"
-    elif number < limits[1]:
+    if number < limits[1]:
         return "🟢", "Low"
-    elif number < limits[2]:
+    if number < limits[2]:
         return "🟠", "Medium"
-    else:
-        return "🔴", "High"
+    return "🔴", "High"
 
 
 def get_printed_data() -> List[Tuple[str, str, str]]:
