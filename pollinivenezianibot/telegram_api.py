@@ -31,6 +31,4 @@ def telegram_channel_delete_message(message_id: int, chat: str = CHANNEL) -> boo
     message = {"chat_id": chat, "message_id": message_id}
     r = requests.get(url=url, json=message)
     print(r.json())
-    if r.json()["ok"]:
-        return True
-    return False
+    return bool(r.json()["ok"])
