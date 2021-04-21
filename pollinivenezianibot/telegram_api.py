@@ -1,14 +1,20 @@
 import os
-from typing import Tuple
-
+from typing import Tuple, Union
+import logging
 import requests
-from rich import print
+from rich.logging import RichHandler
 
 TOKEN = os.environ.get("TELEGRAM_KEY", "")
 CHANNEL = os.environ.get("TELEGRAM_CHANNEL", "")
+FORMAT = "%(message)s"
+logging.basicConfig(
+    level="NOTSET", format=FORMAT, datefmt="[%X]", handlers=[RichHandler()]
+)
+
+log = logging.getLogger("rich")
 
 
-def telegram_send(text: str, user: str) -> Tuple[int, bool]:
+def telegram_send(text: str, user: str) -> Union[Tuple[int, bool], Tuple[None, bool]]:
     url = f"https://api.telegram.org/bot{TOKEN}/sendMessage"
     message = {
         "chat_id": user,
@@ -30,5 +36,8 @@ def telegram_channel_delete_message(message_id: int, chat: str = CHANNEL) -> boo
     url = f"https://api.telegram.org/bot{TOKEN}/deleteMessage"
     message = {"chat_id": chat, "message_id": message_id}
     r = requests.get(url=url, json=message)
-    print(r.json())
-    return r.json()["ok"]
+    log.info(r.json())
+    if r.json()["ok"]:
+        return True
+    else:
+        return False
