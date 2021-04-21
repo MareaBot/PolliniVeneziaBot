@@ -32,5 +32,6 @@ def run():
     new_hash = hashed(data)
     if new_hash != db.pollini_hash:
         db.pollini_hash = new_hash
-        telegram_channel_delete_message(message_id=db.pollini_mex)
+        if not telegram_channel_delete_message(message_id=db.pollini_mex):
+            log.error("Problemi con la cancellazione")
         db.pollini_mex = sender_message()
